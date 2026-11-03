@@ -15,7 +15,7 @@ Target latency is **≤100 ms per check** while handling thousands of requests.
 |---|---|
 | [`compliance-service`](compliance-service) | Core service. Pre-transaction checks for transfers, core-banking (ABS) document checker, watch-list dictionaries, attachments (MinIO), API audit logging, Excel reports |
 | [`dbconsumer`](dbconsumer) | Kafka consumer that keeps the Elasticsearch indices in sync with the source databases (CDC-style ingestion) |
-| [`rest-service`](rest-service) | Search/screening REST API with JWT security, used by other banking channels |
+| [`rest-service`](rest-service) | Search/screening REST API with bearer-token security, used by other banking channels |
 
 ## How a check works
 
@@ -41,7 +41,8 @@ HashiCorp Vault · Spring Cloud (Eureka) · WebFlux · Apache POI · Docker · G
 ```bash
 cd compliance-service && ./gradlew bootRun
 ```
-All endpoints, credentials and secrets are externalized as `${ENV_VAR}` placeholders (see `.env.example`).
+Environment-specific configuration (datasources, Elasticsearch, Kafka, Vault, MinIO endpoints and credentials) lived in
+`application-<profile>.yml` files that were removed from this copy, so you need to supply your own profile before running.
 
 ## Security & sanitization
 Credentials, keys, environment profiles, CI pipelines, internal hosts and personal data were removed;

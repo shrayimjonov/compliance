@@ -12,4 +12,5 @@ Core screening service of the [Compliance platform](../README.md).
 ```bash
 ./gradlew bootRun
 ```
-Configuration comes from environment variables. See `src/main/resources/application.yml` and `../.env.example`.
+Environment-specific configuration (`application-<profile>.yml`) was removed from this copy; provide your own profile
+(datasource, Elasticsearch, Kafka, MinIO, Vault) before running.
