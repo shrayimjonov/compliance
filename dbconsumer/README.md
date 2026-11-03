@@ -1,10 +1,13 @@
 # dbconsumer
 
-Kafka consumer of the [Compliance platform](../README.md). It reads change events from the source databases
-and keeps the Elasticsearch indices used for screening up to date.
+Reads changes from Kafka and keeps the Elasticsearch indexes up to date.
 
-**Stack:** Kotlin, Spring Boot 3.4, Java 21, Kafka, Elasticsearch, PostgreSQL, MongoDB, Vault.
+Stack: Kotlin, Java 21, Spring Boot 3.4.4, PostgreSQL, MongoDB, Elasticsearch, Kafka, Vault, Gradle.
+
+Run:
 
 ```bash
 ./gradlew bootRun
 ```
+
+Settings come from environment variables.

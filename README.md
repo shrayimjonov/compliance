@@ -1,49 +1,42 @@
-# Compliance — Real-time KYC / AML Screening Platform
+# Compliance
 
-High-load compliance system at Davrbank that screens customers and transfers **in real time before a transaction
-is executed**: it matches names, documents and organizations against sanction and internal watch lists, using
-Elasticsearch full-text and fuzzy search.
-Target latency is **≤100 ms per check** while handling thousands of requests.
+KYC/AML check system for a bank. Before a transfer goes through, it checks the customer and the receiver
+against sanction lists and internal watch lists. The search runs on Elasticsearch and the goal is to answer
+in about 100 ms while handling thousands of requests.
 
-> **Context.** Built at Davrbank, where I work as a Backend Engineer (Oct 2025 – present). I was the main
-> developer of `compliance-service` (≈158 of 197 commits) and built the customer-search functionality on
-> Elasticsearch. Published as a portfolio sample with confidential data removed.
+This is a cleaned copy of the real project. Passwords, server addresses and personal data were removed.
 
 ## Modules
 
-| Module | Purpose |
-|---|---|
-| [`compliance-service`](compliance-service) | Core service. Pre-transaction checks for transfers, core-banking (ABS) document checker, watch-list dictionaries, attachments (MinIO), API audit logging, Excel reports |
-| [`dbconsumer`](dbconsumer) | Kafka consumer that keeps the Elasticsearch indices in sync with the source databases (CDC-style ingestion) |
-| [`rest-service`](rest-service) | Search/screening REST API with bearer-token security, used by other banking channels |
+- compliance-service - main service. Checks transfers, checks documents from core banking on a schedule,
+  keeps watch list dictionaries, stores attachments in MinIO, logs API calls, builds Excel reports
+- dbconsumer - reads changes from Kafka and keeps the Elasticsearch indexes up to date
+- rest-service - search API used by other bank systems
 
-## How a check works
+## Search
 
-```
-transfer request ─▶ compliance-service ─▶ normalize & transliterate names (Cyrillic ⇄ Latin)
-                                       ─▶ Elasticsearch query (exact + fuzzy + wildcard, scored)
-                                       ─▶ screening result + audit log
-source DBs ─▶ Kafka ─▶ dbconsumer ─▶ Elasticsearch indices (kept up to date)
-```
+- search by several fields at once
+- name cleanup and Cyrillic to Latin transliteration
+- fuzzy and wildcard search
+- results tuned for accuracy and speed
 
-## What I built
-- Customer search on **Elasticsearch**: multi-field queries, name normalization and Cyrillic/Latin
-  transliteration, fuzzy and wildcard matching, and relevance tuning for accuracy and speed.
-- Pre-transaction screening endpoints and the ABS (core banking) document checker with a scheduled poller.
-- API-call audit logging via an AOP aspect (`@LogApiCall`).
+API calls are logged with an AOP aspect (`@LogApiCall`).
 
-## Tech stack
-**Kotlin · Spring Boot 3.3–4.0 (Java 17/21) · Elasticsearch · Kafka · PostgreSQL · MongoDB · MinIO ·
-HashiCorp Vault · Spring Cloud (Eureka) · WebFlux · Apache POI · Docker · Gradle (Kotlin DSL)**
+## Stack
 
-## Running
+Kotlin, Spring Boot 3/4 (Java 17/21), Elasticsearch, Kafka, PostgreSQL, MongoDB, MinIO, Vault, Eureka,
+WebFlux, Apache POI, Docker, Gradle.
+
+## How to run
 
 ```bash
-cd compliance-service && ./gradlew bootRun
+cd compliance-service
+./gradlew bootRun
 ```
-Environment-specific configuration (datasources, Elasticsearch, Kafka, Vault, MinIO endpoints and credentials) lived in
-`application-<profile>.yml` files that were removed from this copy, so you need to supply your own profile before running.
 
-## Security & sanitization
-Credentials, keys, environment profiles, CI pipelines, internal hosts and personal data were removed;
-git history is not included.
+The real settings (databases, Elasticsearch, Kafka, Vault, MinIO) were in profile files that were removed,
+so you need to add your own profile before running.
+
+## What was removed
+
+Passwords, keys, config profiles, CI files, internal hosts, personal data and git history.
