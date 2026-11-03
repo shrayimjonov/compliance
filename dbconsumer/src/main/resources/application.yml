@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: dbconsumer-service
+  config:
+    import: optional:file:.env[.properties]
+  profiles:
+    active: ${APP_PROFILE:prod}

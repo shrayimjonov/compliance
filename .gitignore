@@ -1,0 +1,49 @@
+# Build output
+target/
+build/
+out/
+bin/
+.gradle/
+node_modules/
+dist/
+.angular/
+*.class
+*.jar
+!**/gradle/wrapper/gradle-wrapper.jar
+!**/.mvn/wrapper/maven-wrapper.jar
+*.war
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.DS_Store
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Secrets & environment-specific config — never commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.truststore
+*.crt
+*.cer
+settings.xml
+local-settings.xml
+gradle.properties
+**/src/main/resources/application-*.yml
+**/src/main/resources/application-*.yaml
+**/src/main/resources/application-*.properties
+**/src/main/resources/config/application-*.yml
+**/src/main/resources/config/application-*.properties
+*firebase-adminsdk*.json
+*service-account*.json

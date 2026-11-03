@@ -1,0 +1,8 @@
+services:
+  app:
+    container_name: compliance-service
+    build: .
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+    ports:
+      - "8090:8090"

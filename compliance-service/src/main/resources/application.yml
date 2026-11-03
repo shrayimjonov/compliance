@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: compliance-service
+  profiles:
+    active: test
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+server:
+  port: 8090
